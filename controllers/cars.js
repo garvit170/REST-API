@@ -28,7 +28,7 @@ module.exports.getById = function(req,res){
         } else {
             return res.json({
                 status: "success",
-                message: "Movie found!", 
+                message: "Car found and returned", 
                 data: {
                     car: car
                 }
@@ -53,7 +53,7 @@ module.exports.getAll = function(req,res){
             }
             return res.json({
                 status: "success",
-                message: "Returned the list of all acrs in database", 
+                message: "Returned the list of all cars in database", 
                 data: {
                     cars: carsList
                 }
