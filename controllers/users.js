@@ -1,11 +1,11 @@
 const User = require('../models/user');
-const bcrypt = requiire('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
 // =========== New User Creation ========================
 module.exports.create = function(req,res){
-    User.findOne({email: request.body.email},function(err, user){
+    User.findOne({email: req.body.email},function(err, user){
         if(err){console.log('Error in finding user in database'); return;}
 
         if(!user){
@@ -25,7 +25,7 @@ module.exports.create = function(req,res){
                 }        
             });
         }else{
-            return es.json({
+            return res.json({
                 staus: "Failure",
                 message: "Email id already exists",
                 data: "null"
@@ -34,14 +34,14 @@ module.exports.create = function(req,res){
     });
 }
 
-//========== authenticating user requests====================
+//========== Authenticating User Requests  ====================
 module.exports.authenticate = function(req,res,next){
-    userModel.findOne({email:req.body.email}, function(err, user){
+    User.findOne({email:req.body.email}, function(err, user){
         if (err) {
             next(err);
         } else {
             if (user != null && bcrypt.compareSync(req.body.password, user.password)) {
-                const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), { expiresIn: '1h' });
+                const token = jwt.sign({ id: user._id }, req.app.get('secretKey'), { expiresIn: '1h' });
                 return res.json({
                     status: "success",
                     message: "user found",
@@ -53,7 +53,7 @@ module.exports.authenticate = function(req,res,next){
             } else {
                 return res.json({
                     status: "error",
-                    message: "Invalid email/password!!!",
+                    message: "Invalid email/password!",
                     data: null
                 });
             }
